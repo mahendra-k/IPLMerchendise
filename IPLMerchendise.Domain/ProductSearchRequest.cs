@@ -11,18 +11,19 @@ namespace IPLMerchendise.Domain
         public ProductSearchRequest() 
         {
             this.PageSize = 50;
+            this.PageNumber = 1;
         }
 
         public int PageSize { get; set; }
 
         public int PageNumber { get; set; }
 
-        public List<int> FranchiseIds { get; set; }
+        public List<int>? FranchiseIds { get; set; }
 
         public decimal MinPrice { get; set; }
 
         public decimal MaxPrice { get; set; }
 
-        public string SearchText { get; set; }
+        public string? SearchText { get; set; }
     }
 }

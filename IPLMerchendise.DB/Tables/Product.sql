@@ -3,7 +3,7 @@
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Name NVARCHAR(255) NOT NULL,             
     Description NVARCHAR(1000),       
-    CurrencyCode INT NOT NULL,
+    CurrencyCode CHAR(10) NOT NULL,
     Price DECIMAL(18, 2) NOT NULL,     
     ProductType NVARCHAR(100) NOT NULL,           
     FranchiseID INT NOT NULL,             
