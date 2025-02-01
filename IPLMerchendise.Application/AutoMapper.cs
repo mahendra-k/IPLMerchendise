@@ -14,6 +14,8 @@ namespace IPLMerchendise.Application
         public AutoMapperProfile() 
         {
             CreateMap<Product, ProductDTO>().ReverseMap();
+
+            CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
         }
     }
 }

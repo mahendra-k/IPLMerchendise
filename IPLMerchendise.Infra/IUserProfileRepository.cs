@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IPLMerchendise.Domain;
 
-namespace IPLMerchendise.Domain
+namespace IPLMerchendise.Infra
 {
-    public enum OrderStatus
+    public interface IUserProfileRepository : IBaseRepository<UserProfile>
     {
-        None = 0,
-        Succeded,
-        Failed
+
     }
 }

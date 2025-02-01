@@ -1,0 +1,8 @@
+CREATE TABLE [dbo].[Order] (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT NOT NULL FOREIGN KEY REFERENCES [UserProfile](Id),
+    OrderDate DATETIME NOT NULL DEFAULT GETDATE(),
+    TotalAmount DECIMAL(18,2) NOT NULL,
+    CurrencyCode CHAR(10) NOT NULL,
+    Status INT NOT NULL
+);
