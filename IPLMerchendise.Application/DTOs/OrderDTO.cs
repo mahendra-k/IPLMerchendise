@@ -14,6 +14,6 @@ namespace IPLMerchendise.Application.DTOs
         public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        public List<OrderItem> Items { get; set; } = new();
+        public List<OrderDTO> Items { get; set; } = new();
     }
 }

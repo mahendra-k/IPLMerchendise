@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using IPLMerchendise.Application.DTOs;
+using IPLMerchendise.Domain;
 using IPLMerchendise.Infra;
 
 namespace IPLMerchendise.Application
@@ -20,14 +21,28 @@ namespace IPLMerchendise.Application
             this._mapper = mapper;
         }
 
-        public Task<OrderDTO> GetOrderAsync(int orderId)
+        public async Task<int> CreaterOrderAsync(int userId, List<OrderItemDTO> orderItems)
         {
-            throw new NotImplementedException();
+            var order = new Order()
+            {
+                UserId = userId,
+                Status = OrderStatus.Succeded,
+                Items = this._mapper.Map<List<OrderItem>>(orderItems)
+            };
+
+            return await this._orderRepository.AddAsync(order);
         }
 
-        public Task<IEnumerable<OrderDTO>> GetOrdersAsync(int userId)
+        public async Task<OrderDTO> GetOrderAsync(int orderId)
         {
-            throw new NotImplementedException();
+            var order = await this._orderRepository.GetByIdAsync(orderId);
+            return this._mapper.Map<OrderDTO>(order);
+        }
+
+        public async Task<IEnumerable<OrderDTO>> GetOrdersByUserIdAsync(int userId)
+        {
+            var orders = await this._orderRepository.GetOrdersByUserIdAsync(userId);
+            return this._mapper.Map<IEnumerable<OrderDTO>>(orders);
         }
     }
 }
