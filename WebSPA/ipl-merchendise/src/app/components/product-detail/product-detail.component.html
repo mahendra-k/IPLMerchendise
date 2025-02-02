@@ -1,0 +1,18 @@
+<div class="product-detail">
+    <div class="product-image">
+      <img [src]="product.imageUrl" [alt]="product.name" />
+    </div>
+  
+    <div class="product-info">
+      <h1 class="product-name">{{ product.name }}</h1>
+      <p class="product-description">{{ product.description }}</p>
+      <p class="product-price">₹{{ product.price | number:'1.2-2' }}</p>
+  
+      <div class="cart-actions">
+        <label for="quantity">Quantity:</label>
+        <input id="quantity" type="number" [(ngModel)]="product.quantity" min="1" max="10" class="quantity-input" />
+        <button (click)="addToCart()" class="add-to-cart-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+  

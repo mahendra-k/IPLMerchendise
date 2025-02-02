@@ -1,0 +1,19 @@
+<header class="header">
+  <div class="logo">
+    <img src="assets/logo.png" alt="IPL Merchandise Logo" />
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search for products..." (input)="onSearch($event)" />
+    <button (click)="search()">🔍</button>
+  </div>
+
+  <div class="nav-icons">
+    <button (click)="goToCart()">
+      🛒 Cart <span *ngIf="cartCount > 0">({{ cartCount }})</span>
+    </button>
+    <button (click)="goToOrders()">📜 Order History</button>
+    <button (click)="goToProfile()">👤 Profile</button>
+  </div>
+</header>
+<router-outlet></router-outlet>
