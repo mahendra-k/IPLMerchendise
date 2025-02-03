@@ -11,5 +11,7 @@ namespace IPLMerchendise.Infra
     public interface IProductRepository : IBaseRepository<Product>
     {
         Task<PagedResult<Product>> GetProductsAsync(ProductSearchRequest productSearchRequest);
+
+        Task<IEnumerable<Product>> GetProductsAsync(List<int> productIds);
     }
 }

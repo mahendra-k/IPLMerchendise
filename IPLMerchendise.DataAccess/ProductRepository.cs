@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +77,28 @@ namespace IPLMerchendise.DataAccess
         public Task<bool> UpdateAsync(Product entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> productIds) 
+        {
+            if (productIds == null || productIds.Count == 0)
+            {
+                return new List<Product>();
+            }
+
+            var query = @"
+            SELECT 
+                Id,
+                Name,
+                Description,
+                CurrencyCode,
+                Price,
+                ProductType,
+                ImageUrl
+            FROM dbo.Product
+            WHERE Id IN @ProductIds";
+
+            return await this._unitOfWork.Connection.QueryAsync<Product>(query, new { ProductIds = productIds });
         }
     }
 }

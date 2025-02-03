@@ -13,20 +13,29 @@ namespace IPLMerchendise.Application
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper) 
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository, IMapper mapper)
         {
             this._orderRepository = orderRepository;
             this._mapper = mapper;
+            this._productRepository = productRepository;
         }
 
         public async Task<int> CreaterOrderAsync(int userId, List<OrderItemDTO> orderItems)
         {
+            var products = await this._productRepository.GetProductsAsync(orderItems.Select(_ => _.ProductId).ToList());
+            foreach (var item in orderItems)
+            {
+                item.Price = products.ToList().Find(_ => _.Id == item.ProductId)?.Price;
+            }
             var order = new Order()
             {
                 UserId = userId,
                 Status = OrderStatus.Succeded,
+                CreatedAt = DateTime.UtcNow,
+                TotalAmount = orderItems.Sum(_ => _.TotalPrice),
                 Items = this._mapper.Map<List<OrderItem>>(orderItems)
             };
 
@@ -42,7 +51,18 @@ namespace IPLMerchendise.Application
         public async Task<IEnumerable<OrderDTO>> GetOrdersByUserIdAsync(int userId)
         {
             var orders = await this._orderRepository.GetOrdersByUserIdAsync(userId);
-            return this._mapper.Map<IEnumerable<OrderDTO>>(orders);
+            var products = await this._productRepository.GetProductsAsync(orders.SelectMany(_ => _.Items).Select(_ => _.ProductId).ToList());
+
+            var mappedOrders = this._mapper.Map<IEnumerable<OrderDTO>>(orders);
+            foreach (var order in mappedOrders)
+            {
+                foreach (var item in order.Items)
+                {
+                    var product = products.ToList().Find(_ => _.Id == item.ProductId);
+                    item.ProductName = product != null ? product.Name : string.Empty;
+                }
+            }
+            return mappedOrders;
         }
     }
 }

@@ -38,11 +38,10 @@ export class CartComponent implements OnInit {
   }
 
   isUserProfileCreated(): boolean {
-    return this.userId !== null || this.userId !== 0;
+    return this.userId !== null && this.userId !== 0;
   }
 
   promptProfileCreation(): void {
-    alert('Please create your profile before placing an order!');
     this.router.navigate(['/profile']); // Redirect user to the profile creation page
   }
 

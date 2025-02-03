@@ -22,7 +22,7 @@ namespace IPLMerchendise.API.Controllers
             return await this._orderService.GetOrderAsync(orderId);
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet("users/{userId}")]
         public async Task<IEnumerable<OrderDTO>> GetOrdersByUserId(int userId)
         {
             return await this._orderService.GetOrdersByUserIdAsync(userId);

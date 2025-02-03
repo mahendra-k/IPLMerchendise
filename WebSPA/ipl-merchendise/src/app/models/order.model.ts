@@ -2,14 +2,14 @@ export class Order
 {
     id: number;
     date: string;
-    totalPrice: number;
+    totalAmount: number;
     status: string;
     items: OrderItem[];
 
     constructor(args:any){
         this.id = args.id;
         this.date = args.date;
-        this.totalPrice = args.totalPrice;
+        this.totalAmount = args.totalAmount;
         this.status = args.status;
         this.items = args.items;
     }
