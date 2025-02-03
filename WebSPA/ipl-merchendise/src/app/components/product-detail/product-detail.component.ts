@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
 import { FormsModule } from '@angular/forms';
-import { DecimalPipe,NgIf } from '@angular/common';
+import { CurrencyPipe,NgIf } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute,RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+
 @Component({
   selector: 'app-product-detail',
-  imports: [FormsModule, DecimalPipe,RouterLink,NgIf],
+  imports: [FormsModule, CurrencyPipe,RouterLink,NgIf],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })

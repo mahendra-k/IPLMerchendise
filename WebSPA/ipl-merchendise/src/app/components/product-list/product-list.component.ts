@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
-import { NgFor, DecimalPipe,NgIf } from '@angular/common';
+import { NgFor,NgIf,CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { RouterLink } from '@angular/router';
@@ -8,7 +8,7 @@ import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
-  imports: [NgFor, DecimalPipe, FormsModule, RouterLink,NgIf],
+  imports: [NgFor, FormsModule, RouterLink,NgIf,CurrencyPipe],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })

@@ -22,15 +22,15 @@
         <option *ngFor="let qty of [1, 2, 3, 4, 5]" [value]="qty">{{ qty }}</option>
       </select>
     </span>
-    <span class="unit-price">{{ item.price | currency }}</span>
-    <span class="total-price">{{ item.quantity * item.price | currency }}</span>
+    <span class="unit-price">{{ item.price | currency:item.currencyCode }}</span>
+    <span class="total-price">{{ item.quantity * item.price | currency:item.currencyCode }}</span>
     <button (click)="removeFromCart(item.productId)" class="remove-btn">❌ Remove</button>
   </div>
 
   <!-- Order Total -->
   <div *ngIf="cartItems.length > 0" class="order-total">
     <strong>Total: </strong>
-    {{ getOrderTotal() | currency }}
+    {{ getOrderTotal() | currency:getCurrencyCode() }}
   </div>
 
   <!-- Conditional Button to Place Order -->

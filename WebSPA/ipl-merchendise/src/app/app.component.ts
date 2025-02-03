@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime } from 'rxjs';
 import { ProductService } from './services/product.service';
 import { Product } from './models/product.model';
+import { CartService } from './services/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent {
   searchResults:Product[]= [];
 
   constructor(private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) {
 
     this.searchSubject.pipe(debounceTime(300)).subscribe((searchText) => {
@@ -30,6 +32,10 @@ export class AppComponent {
       } else {
         this.searchResults = []; // Clear dropdown if less than 3 characters
       }
+    });
+
+    this.cartService.cartItemCount$.subscribe((count) => {
+      this.cartCount = count;
     });
   }
 
@@ -60,6 +66,6 @@ export class AppComponent {
   }
 
   goToProfile() {
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/user-profile']);
   }
 }

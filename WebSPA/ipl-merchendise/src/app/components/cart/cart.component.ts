@@ -38,11 +38,11 @@ export class CartComponent implements OnInit {
   }
 
   isUserProfileCreated(): boolean {
-    return this.userId !== null && this.userId !== 0;
+    return !!this.userId;
   }
 
   promptProfileCreation(): void {
-    this.router.navigate(['/profile']); // Redirect user to the profile creation page
+    this.router.navigate(['/user-profile']); // Redirect user to the profile creation page
   }
 
   // Proceed to place order
@@ -52,10 +52,11 @@ export class CartComponent implements OnInit {
       orderItems.push(new OrderItem({
         productId: _.productId,
         price: _.price,
-        quantity: _.quantity
+        quantity: _.quantity,
+        productName:_.productName
       }));
     });
-    this.orderService.placeOrder(orderItems, 1).subscribe(_ => {
+    this.orderService.placeOrder(orderItems, this.userId).subscribe(_ => {
       alert('Order placed successfully! 🎉');
       this.cartService.clearCart(); // Clear cart after placing order
       this.loadCart(); // Refresh cart display
@@ -69,5 +70,9 @@ export class CartComponent implements OnInit {
 
   getOrderTotal(): number {
     return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  getCurrencyCode():string{
+    return this.cartItems[0].currencyCode;
   }
 }
