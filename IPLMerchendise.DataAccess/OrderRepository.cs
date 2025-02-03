@@ -25,8 +25,8 @@ namespace IPLMerchendise.DataAccess
             try
             {
                 // Insert order
-                var orderQuery = @"INSERT INTO [Order] (UserId, TotalAmount) 
-                               VALUES (@UserId, @TotalAmount);
+                var orderQuery = @"INSERT INTO [Order] (UserId, TotalAmount,Status,CurrencyCode ) 
+                               VALUES (@UserId, @TotalAmount,@Status,'INR');
                                SELECT SCOPE_IDENTITY();";
                 int orderId = await _unitOfWork.Connection.ExecuteScalarAsync<int>(orderQuery, order, _unitOfWork.Transaction);
 

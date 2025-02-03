@@ -1,24 +1,46 @@
 <div class="cart-container">
-    <h2 class="cart-title">🛍️ Your Cart</h2>
-  
-    <div *ngIf="cartItems.length === 0" class="empty-cart">
-      <p>🛒 Your cart is empty!</p>
-    </div>
-  
-    <div *ngIf="cartItems.length > 0" class="cart-header">
-      <span>Product</span>
-      <span>Quantity</span>
-      <span>Action</span>
-    </div>
-  
-    <div *ngFor="let item of cartItems" class="cart-item">
-      <span class="product-name">{{ item.productName }}</span>
-      <span class="quantity">{{ item.quantity }}</span>
-      <button (click)="removeFromCart(item.productId)" class="remove-btn">❌ Remove</button>
-    </div>
-  
-    <button *ngIf="cartItems.length > 0" (click)="placeOrder()" class="place-order-btn">
+  <h2 class="cart-title">🛍️ Your Cart</h2>
+
+  <!-- Empty Cart Message -->
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <p>🛒 Your cart is empty!</p>
+  </div>
+
+  <!-- Cart Item List -->
+  <div *ngIf="cartItems.length > 0" class="cart-header">
+    <span>Product</span>
+    <span>Quantity</span>
+    <span>Unit Price</span>
+    <span>Total Price</span>
+    <span>Action</span>
+  </div>
+
+  <div *ngFor="let item of cartItems" class="cart-item">
+    <span class="product-name">{{ item.productName }}</span>
+    <span class="quantity">
+      <select [(ngModel)]="item.quantity" (change)="updateQuantity(item)">
+        <option *ngFor="let qty of [1, 2, 3, 4, 5]" [value]="qty">{{ qty }}</option>
+      </select>
+    </span>
+    <span class="unit-price">{{ item.price | currency }}</span>
+    <span class="total-price">{{ item.quantity * item.price | currency }}</span>
+    <button (click)="removeFromCart(item.productId)" class="remove-btn">❌ Remove</button>
+  </div>
+
+  <!-- Order Total -->
+  <div *ngIf="cartItems.length > 0" class="order-total">
+    <strong>Total: </strong>
+    {{ getOrderTotal() | currency }}
+  </div>
+
+  <!-- Conditional Button to Place Order -->
+  <div *ngIf="cartItems.length > 0">
+    <button *ngIf="!isUserProfileCreated()" (click)="promptProfileCreation()" class="btn btn-warning">
+      Please create your profile before placing an order
+    </button>
+    
+    <button *ngIf="isUserProfileCreated()" (click)="placeOrder()" class="place-order-btn">
       ✅ Place Order
     </button>
   </div>
-  
+</div>

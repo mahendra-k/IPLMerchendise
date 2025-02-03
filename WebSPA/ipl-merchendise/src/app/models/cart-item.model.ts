@@ -3,10 +3,13 @@ export class CartItem {
     quantity: number;
     productName: string;
     imageUrl: string;
+    price: number;
+
     constructor(args: any) {
         this.productId = args.productId;
         this.quantity = args.quantity;
         this.productName = args.productName;
         this.imageUrl = args.imageUrl;
+        this.price = args.price;
     }
 }

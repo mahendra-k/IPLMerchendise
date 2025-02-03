@@ -16,6 +16,10 @@ namespace IPLMerchendise.Application
             CreateMap<Product, ProductDTO>().ReverseMap();
 
             CreateMap<UserProfile, UserProfileDTO>().ReverseMap();
+
+            CreateMap<Order, OrderDTO>().ReverseMap();
+
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
         }
     }
 }

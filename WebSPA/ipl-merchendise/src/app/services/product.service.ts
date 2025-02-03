@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 import { PageResult } from '../models/page-result.model';
@@ -10,11 +10,15 @@ import { PageResult } from '../models/page-result.model';
 export class ProductService {
   private apiUrl = 'https://localhost:7018/api/products'; // Update with your API URL
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Fetch all products with optional filters
-  getProducts(searchParams?: any): Observable<PageResult<Product>> {
-    return this.http.get<PageResult<Product>>(this.apiUrl, { params: searchParams });
+  getProducts(searchText?: string): Observable<PageResult<Product>> {
+    var productApi = this.apiUrl;
+    if (searchText) {
+      productApi = `${this.apiUrl}?searchText=${searchText}`;
+    }
+    return this.http.get<PageResult<Product>>(productApi);
   }
 
   // Fetch product by ID

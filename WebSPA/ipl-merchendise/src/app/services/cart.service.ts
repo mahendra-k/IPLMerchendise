@@ -28,7 +28,7 @@ export class CartService {
       cart[existingItemIndex].quantity += quantity;
     } else {
       // If not, add new item to the cart
-      cart.push({ productId: product.id, quantity, productName: product.name, imageUrl:"" });
+      cart.push({ productId: product.id, quantity, productName: product.name, imageUrl:"",price:product.price });
     }
 
     // Save updated cart to localStorage
@@ -41,6 +41,13 @@ export class CartService {
     cart = cart.filter(item => item.productId !== productId);
 
     // Save updated cart to localStorage
+    localStorage.setItem(this.storageKey, JSON.stringify(cart));
+  }
+
+  updateCart(productId: number, quantity: number) {
+    let cart = this.getCart();
+    const item = cart.find(item => item.productId === productId);
+    if (item) item.quantity = quantity;
     localStorage.setItem(this.storageKey, JSON.stringify(cart));
   }
 
