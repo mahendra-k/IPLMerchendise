@@ -29,8 +29,8 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  addToCart(productId:number){
-    this.cartService.addToCart(productId, 1);
+  addToCart(product:Product){
+    this.cartService.addToCart(product, 1);
   }
 
   itemExistsInCart(productId:number){

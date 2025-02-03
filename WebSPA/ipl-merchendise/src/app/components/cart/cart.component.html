@@ -1,1 +1,24 @@
-<p>cart works!</p>
+<div class="cart-container">
+    <h2 class="cart-title">🛍️ Your Cart</h2>
+  
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <p>🛒 Your cart is empty!</p>
+    </div>
+  
+    <div *ngIf="cartItems.length > 0" class="cart-header">
+      <span>Product</span>
+      <span>Quantity</span>
+      <span>Action</span>
+    </div>
+  
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <span class="product-name">{{ item.productName }}</span>
+      <span class="quantity">{{ item.quantity }}</span>
+      <button (click)="removeFromCart(item.productId)" class="remove-btn">❌ Remove</button>
+    </div>
+  
+    <button *ngIf="cartItems.length > 0" (click)="placeOrder()" class="place-order-btn">
+      ✅ Place Order
+    </button>
+  </div>
+  

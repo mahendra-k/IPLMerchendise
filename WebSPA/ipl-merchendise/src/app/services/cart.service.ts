@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Product } from '../models/product.model';
+import { CartItem } from '../models/cart-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,24 +11,24 @@ export class CartService {
   constructor() {}
 
   // Retrieve the current cart from localStorage
-  getCart(): { productId: number; quantity: number }[] {
+  getCart(): CartItem[] {
     const cart = localStorage.getItem(this.storageKey);
     return cart ? JSON.parse(cart) : [];
   }
 
   // Add item to the cart (productId and quantity)
-  addToCart(productId: number, quantity: number): void {
+  addToCart(product: Product, quantity: number): void {
     let cart = this.getCart();
     
     // Check if the product is already in the cart
-    const existingItemIndex = cart.findIndex(item => item.productId === productId);
+    const existingItemIndex = cart.findIndex(item => item.productId === product.id);
 
     if (existingItemIndex > -1) {
       // If it exists, update the quantity
       cart[existingItemIndex].quantity += quantity;
     } else {
       // If not, add new item to the cart
-      cart.push({ productId, quantity });
+      cart.push({ productId: product.id, quantity, productName: product.name, imageUrl:"" });
     }
 
     // Save updated cart to localStorage

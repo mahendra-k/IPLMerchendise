@@ -6,7 +6,7 @@
   
       <!-- Quantity input and Add to Cart button -->
       <div class="cart-actions">
-        <button *ngIf= "!itemExistsInCart(product.id);else viewCart" (click)="addToCart(product.id)" class="add-to-cart-btn">Add to Cart</button>
+        <button *ngIf= "!itemExistsInCart(product.id);else viewCart" (click)="addToCart(product)" class="add-to-cart-btn">Add to Cart</button>
         <ng-template #viewCart>
             <button class="add-to-cart-btn">View Cart</button>
         </ng-template>
