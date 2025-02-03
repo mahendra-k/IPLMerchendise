@@ -24,7 +24,19 @@ namespace IPLMerchendise.Application
         public async Task<PagedResult<ProductDTO>> GetProducts(ProductSearchRequest productSearchRequest)
         {
             var result = await this._productRepository.GetProductsAsync(productSearchRequest);
-            return _mapper.Map<PagedResult<ProductDTO>>(result);
+            var products = _mapper.Map<IEnumerable<ProductDTO>>(result.Items);
+            return new PagedResult<ProductDTO>() 
+            {
+                Items = products,
+                PageNumber = result.PageNumber,
+                PageSize = result.PageSize,
+                TotalCount = result.TotalCount
+            };
+        }
+
+        public async Task<ProductDTO> GetProduct(int productId)
+        {
+            return _mapper.Map<ProductDTO>(await this._productRepository.GetByIdAsync(productId));
         }
     }
 }

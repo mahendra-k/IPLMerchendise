@@ -2,7 +2,7 @@
 
 namespace IPLMerchendise.Infra
 {
-    public interface IBaseRepository<T> where T : class
+    public interface IBaseRepository<T> where T : BaseDomain
     {
         Task<int> AddAsync(T entity);
 

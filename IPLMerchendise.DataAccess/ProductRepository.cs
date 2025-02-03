@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,9 +35,9 @@ namespace IPLMerchendise.DataAccess
             throw new NotImplementedException();
         }
 
-        public Task<Product> GetByIdAsync(int id)
+        public async Task<Product> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await this._unitOfWork.Connection.QuerySingleAsync<Product>("Select * from Product where Id = @Id", new { Id = id });
         }
 
         public Task<PagedResult<Product>> GetPagedResultAsync(int pageIndex, int pageSize)
@@ -47,13 +48,17 @@ namespace IPLMerchendise.DataAccess
         public async Task<PagedResult<Product>> GetProductsAsync(ProductSearchRequest productSearchRequest)
         {
             var query = new StringBuilder("SELECT * FROM Product WHERE 1=1");
+            var countQuery = new StringBuilder("SELECT COUNT(Id) FROM Product WHERE 1=1");
             var parameters = new DynamicParameters();
 
             if (!string.IsNullOrEmpty(productSearchRequest.SearchText))
             {
                 query.Append(" AND Name LIKE @Name");
+                countQuery.Append(" AND Name LIKE @Name");
                 parameters.Add("Name", $"%{productSearchRequest.SearchText}%");
             }
+
+            var totalCount = await _unitOfWork.Connection.ExecuteScalarAsync<int>(countQuery.ToString(), parameters, _unitOfWork.Transaction);
 
             query.Append(" ORDER BY Name OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY");
 
@@ -64,13 +69,36 @@ namespace IPLMerchendise.DataAccess
             {
                 Items = products,
                 PageNumber = productSearchRequest.PageNumber,
-                PageSize = productSearchRequest.PageSize
+                PageSize = productSearchRequest.PageSize,
+                TotalCount = totalCount
             };
         }
 
         public Task<bool> UpdateAsync(Product entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsAsync(List<int> productIds) 
+        {
+            if (productIds == null || productIds.Count == 0)
+            {
+                return new List<Product>();
+            }
+
+            var query = @"
+            SELECT 
+                Id,
+                Name,
+                Description,
+                CurrencyCode,
+                Price,
+                ProductType,
+                ImageUrl
+            FROM dbo.Product
+            WHERE Id IN @ProductIds";
+
+            return await this._unitOfWork.Connection.QueryAsync<Product>(query, new { ProductIds = productIds });
         }
     }
 }

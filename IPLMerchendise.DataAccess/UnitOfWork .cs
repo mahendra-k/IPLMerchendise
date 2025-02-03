@@ -17,7 +17,7 @@ namespace IPLMerchendise.DataAccess
 
         public UnitOfWork(IConfiguration configuration)
         {
-            _connection = new SqlConnection(configuration.GetConnectionString("ConnectionStrings.IPLMerchendiseDB"));
+            _connection = new SqlConnection(configuration.GetConnectionString("IPLMerchendiseDB"));
             _connection.Open();
         }
 

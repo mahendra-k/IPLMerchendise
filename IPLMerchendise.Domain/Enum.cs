@@ -6,5 +6,10 @@ using System.Threading.Tasks;
 
 namespace IPLMerchendise.Domain
 {
- 
+    public enum OrderStatus
+    {
+        None = 0,
+        Succeded,
+        Failed
+    }
 }
