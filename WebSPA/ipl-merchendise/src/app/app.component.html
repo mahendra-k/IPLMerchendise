@@ -3,12 +3,8 @@
     <img src="assets/ipl-logo.png" class="header-logo" [routerLink]="['']" alt="IPL Merchandise Logo" />
   </div>
 
-  <!-- Search Bar -->
   <div class="search-bar">
     <input type="text" placeholder="Search for products..." (input)="onSearch($event)" [value]="searchTerm" />
-    <!-- <button (click)="search()">🔍</button> -->
-
-    <!-- Dropdown for Search Results -->
     <div class="search-dropdown" *ngIf="searchResults.length > 0">
       <div *ngFor="let product of searchResults" (click)="goToProduct(product.id)" class="search-item">
         {{ product.name }}

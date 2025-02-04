@@ -2,9 +2,8 @@
     <div class="product-card" *ngFor="let product of products">
       <img src="assets/sample-img.png" [alt]="product.name" class="product-image" />
       <h3 class="product-name" [routerLink]="['/product-detail', product.id]">{{ product.name }}</h3>
-      <p class="product-price">₹{{ product.price | number:'1.2-2' }}</p>
+      <p class="product-price">{{ product.price | currency:product.currencyCode }}</p>
   
-      <!-- Quantity input and Add to Cart button -->
       <div class="cart-actions">
         <button *ngIf= "!itemExistsInCart(product.id);else viewCart" (click)="addToCart(product)" class="add-to-cart-btn">Add to Cart</button>
         <ng-template #viewCart>
