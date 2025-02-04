@@ -8,12 +8,12 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class OrderService {
-  private baseUrl = `${environment.apiBaseUrl}/orders`; 
+  private baseUrl = `${environment.apiBaseUrl}/orders`;
 
   constructor(private http: HttpClient) { }
 
   getOrders(userId: number): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/users/${userId}`);
+    return this.http.get<Order[]>(`${this.baseUrl}?userId=${userId}`);
   }
 
   getOrderById(orderId: number): Observable<Order> {

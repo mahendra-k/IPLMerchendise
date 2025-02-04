@@ -1,4 +1,5 @@
-﻿using IPLMerchendise.Application;
+﻿using System.ComponentModel.DataAnnotations;
+using IPLMerchendise.Application;
 using IPLMerchendise.Application.DTOs;
 using IPLMerchendise.Infra;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,8 @@ namespace IPLMerchendise.API.Controllers
             return await this._orderService.GetOrderAsync(orderId);
         }
 
-        [HttpGet("users/{userId}")]
-        public async Task<IEnumerable<OrderDTO>> GetOrdersByUserId(int userId)
+        [HttpGet]
+        public async Task<IEnumerable<OrderDTO>> GetOrdersByUserId([FromQuery][Required]int userId)
         {
             return await this._orderService.GetOrdersByUserIdAsync(userId);
         }
