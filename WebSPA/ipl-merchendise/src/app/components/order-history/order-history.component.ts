@@ -13,7 +13,8 @@ export class OrderHistoryComponent implements OnInit {
   orders: Order[] = [
   ];
   userId: number = 0;
-  expandedOrder: Order | null = null; // Store expanded order object
+  expandedOrder: Order | null = null;
+  
   constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
@@ -21,21 +22,6 @@ export class OrderHistoryComponent implements OnInit {
     if (this.userId) {
 
       this.getOrders();
-    }
-  }
-
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'Pending':
-        return 'status-pending';
-      case 'Shipped':
-        return 'status-shipped';
-      case 'Delivered':
-        return 'status-delivered';
-      case 'Cancelled':
-        return 'status-cancelled';
-      default:
-        return '';
     }
   }
 

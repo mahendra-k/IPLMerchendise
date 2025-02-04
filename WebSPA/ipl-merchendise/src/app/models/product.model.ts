@@ -3,11 +3,10 @@ export class Product {
     name: string;
     price: number;
     imageUrl: string;
-    quantity:number;
-    description:string;
-    currencyCode:string;
-    constructor(args:any)
-    {
+    quantity: number;
+    description: string;
+    currencyCode: string;
+    constructor(args: any) {
         this.id = args.id;
         this.name = args.name;
         this.price = args.price;

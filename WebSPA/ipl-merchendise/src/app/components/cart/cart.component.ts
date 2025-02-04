@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { NgIf, NgFor,CurrencyPipe } from '@angular/common';
+import { NgIf, NgFor, CurrencyPipe } from '@angular/common';
 import { CartItem } from '../../models/cart-item.model';
 import { OrderService } from '../../services/order.service';
 import { OrderItem } from '../../models/order.model';
@@ -9,16 +9,16 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [NgIf, NgFor,FormsModule,CurrencyPipe],
+  imports: [NgIf, NgFor, FormsModule, CurrencyPipe],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
-  userId:number = 0;
+  userId: number = 0;
   constructor(private cartService: CartService,
     private orderService: OrderService,
-    private router:Router
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -26,15 +26,13 @@ export class CartComponent implements OnInit {
     this.userId = +(localStorage.getItem('userId') ?? 0);
   }
 
-  // Load cart items from localStorage
   loadCart() {
     this.cartItems = this.cartService.getCart();
   }
 
-  // Remove item from cart
   removeFromCart(productId: number) {
     this.cartService.removeFromCart(productId);
-    this.loadCart(); // Reload cart after removal
+    this.loadCart();
   }
 
   isUserProfileCreated(): boolean {
@@ -42,10 +40,9 @@ export class CartComponent implements OnInit {
   }
 
   promptProfileCreation(): void {
-    this.router.navigate(['/user-profile']); // Redirect user to the profile creation page
+    this.router.navigate(['/user-profile']);
   }
 
-  // Proceed to place order
   placeOrder() {
     var orderItems: OrderItem[] = [];
     this.cartItems.forEach(_ => {
@@ -53,26 +50,27 @@ export class CartComponent implements OnInit {
         productId: _.productId,
         price: _.price,
         quantity: _.quantity,
-        productName:_.productName
+        productName: _.productName,
+        currencyCode: _.currencyCode
       }));
     });
     this.orderService.placeOrder(orderItems, this.userId).subscribe(_ => {
       alert('Order placed successfully! 🎉');
-      this.cartService.clearCart(); // Clear cart after placing order
-      this.loadCart(); // Refresh cart display
+      this.cartService.clearCart();
+      this.loadCart();
     });
   }
 
   updateQuantity(item: CartItem) {
     this.cartService.updateCart(item.productId, item.quantity);
-    this.loadCart(); // Refresh cart
+    this.loadCart();
   }
 
   getOrderTotal(): number {
     return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   }
 
-  getCurrencyCode():string{
+  getCurrencyCode(): string {
     return this.cartItems[0].currencyCode;
   }
 }
